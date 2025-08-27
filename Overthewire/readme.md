@@ -23,3 +23,21 @@ Sau đó màn hình sẽ hiện ra yêu cầu nhập pass và khi đó ta chỉ 
 ####  📌References
 - [Secure Shell (SSH) on Wikipedia](https://en.wikipedia.org/wiki/Secure_Shell) <br>
 - [How to use SSH on wikiHow](https://www.wikihow.com/Use-SSH)
+
+### 🚩Level 0 -> level 1
+Yeh, sau khi kết nối được vào server thì nó bảo có 1 file có tên là ```readme``` ngay tại thư mục ```home``` chứa password cho cấp độ tiếp theo. Và tương tự như vậy, dù ở bất cứ cấp độ nào, bạn cần tìm password được giấu ở đâu đó, sau đó ```ssh``` để kết nối tới cấp độ tiếp theo.
+![alt text](img/level0-2.png)
+
+#### 💁Solution
+Một số lệnh hữu ích để giải quyết level này là:
+- ```ls```: dùng để xem các file hiện có trong folder
+- ```cd```: dùng để di chuyển tới các folder cụ thể
+- ```cat```: dùng để xem nội dung của file
+- ```file```: dùng để xem kiểu file
+- ```du```: dùng để xem dung lượng file và folder
+- ```find```: dùng để tìm kiếm file và folder
+
+![alt text](img/level0-3.png)
+Với 1 số lệnh trên, đầu tiên mình đã thử dùng ```ls``` để xem ở trong folder hiện tại có những file gì thì bất giờ file readme có ngay ở đây, và sau đó mình dùng ```cat``` để in ra nội dung của file ```readme``` đó. 
+
+Và password cho level tiếp theo được hiện ra. (```ZjLjTmM6FvvyRnrb2rfNWOZOTa6ip5If```)
