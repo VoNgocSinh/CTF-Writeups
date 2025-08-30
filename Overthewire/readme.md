@@ -5,7 +5,7 @@
 - **Difficulty:** Easy
 - **Source**: [Overthewire](https://overthewire.org/wargames/bandit/)
 
-**📝Note:** Xin chào các bạn, đây là ```writeup``` đầu tiên mình viết khi mình bắt đầu với ```CTF``` và đặc biệt là ```Pwnable```. Trong bài viết này, mình xin chia sẻ với mọi người về hướng tiếp cận và cách giải của mình về 34 level ```bandit``` ở trên OverTheWire. Các thử thách của bandit chủ yếu xoay quanh các lệnh linux cơ bản, thường hay sử dụng và quan trọng là nó sẽ giúp chúng ta thực hành các vấn đề liên quan về CTF. Vì là bài writeups đầu tiên mình viết nên mong mọi người góp ý.
+**📝Note:** Xin chào các bạn, đây là ```writeup``` đầu tiên mình viết khi mình bắt đầu với ```CTF``` và đặc biệt là ```Pwnable```. Trong bài viết này, mình xin chia sẻ với mọi người về hướng tiếp cận và cách giải của mình về 34 level ```bandit``` ở trên OverTheWire. Các thử thách của bandit chủ yếu xoay quanh các lệnh linux cơ bản, thường hay sử dụng và quan trọng là nó sẽ giúp chúng ta thực hành các vấn đề liên quan về CTF. Vì là bài writeup đầu tiên mình viết nên mong mọi người góp ý.
 
 ### Level 0
 Level này yêu cầu mình sử dụng ```ssh``` để kết nối vào server ```bandit.labs.overthewire.org``` với port ```2220```, username và password là ```bandit0```.
@@ -129,3 +129,126 @@ Như vậy, đối với 2 thông tin ```human-readable``` và ```not executable
 
 Password cho level tiếp theo được hiện ra. (```HWasnPhtq9AVKe0dmk45nxy20cvUa6EG```)
 
+### Level 6 -> level 7
+Level này yêu cầu ta cần tìm password được giấu trong 1 file, và file được lưu ở đâu đó trong server. Và file đó có các thông tin như sau: <br>
+- owned by user bandit7 (thuộc sở hữu của người dùng bandit7)
+- owned by group bandit6 (thuộc sở hữu của nhóm bandit6)
+- 33 bytes in size: file có kích thước là 33 bytes
+
+![alt text](img/level6.png)
+
+#### Solution
+Như ta có thể thấy ở trên ta đã được cung cấp 3 thông tin về user, group và size. Vì thế, mình đã sử dụng lệnh ```find``` để tìm file có đầy đủ các thông tin đó.<br>
+Cụ thể: ```find -user bandit7 -group bandit6 -size 33c```
+- option -user: tìm theo người dùng sở hữu
+- option -group: tìm theo nhóm sở hữu
+- option -size: tìm theo kích thước
+
+![alt text](img/level6-1.png)
+Ta có thể thấy ở trong hình, nó vẫn cho ra rất nhiều file có những thông tin đó. Sau đó, mình đã thử dụng ```grep``` để lọc thử xem thì khi mình thử truyền keyword là ```bandit7``` thì thật may mắn nó cho ra kết quả là 1 file có tên như vậy (```./var/lib/dpkg/info/bandit7.password```). Và mình thử ```cat``` ra xem thì thực sự có password được lưu ở trong đó.
+
+![alt text](img/level6-2.png)
+
+Password cho level tiếp theo được hiện ra. (```morbNTDkSW6jIlUc0ymOdMaLnOlFVAaj```)
+
+### Level 7 -> level 8
+Level này yêu cầu ta cần tìm password được giấu trong file ```data.txt```. Và password được lưu bên cạnh từ ```millonth```.
+
+![alt text](img/level7.png)
+
+#### Solution
+Trước khi giải quyết level này ta cần tìm hiểu về 1 số lệnh sau:
+- ```man```: dùng để xem hướng dẫn sử dụng 1 lệnh nào đó.
+- ```grep```: dùng để tìm kiếm 1 chuỗi các ký tự trong 1 output hoặc 1 file nào đó.
+- ```sort```: dùng để sắp xếp các dòng trong 1 file văn bản hoặc 1 output nào đó.
+- ```uniq```: dùng để loại bỏ các dòng trùng lặp trong 1 file văn bản hoặc 1 output nào đó.
+- ```strings```: dùng để in ra các chuỗi ký tự có thể in được từ 1 file nhị phân.
+- ```base64```: dùng để mã hóa hoặc giải mã dữ liệu theo chuẩn base64.
+- ```tr```: dùng để dịch hoặc xóa các ký tự.
+- ```tar```: dùng để nén và giải nén các file.
+- ```gzip```: dùng để nén và giải nén các file theo định dạng gzip.
+- ```bzip2```: dùng để nén và giải nén các file theo định dạng bzip2.
+- ```xxd```: dùng để tạo ra 1 bản hex dump hoặc chuyển đổi giữa hex dump và binary.
+
+Đối với level này, đầu tiên mình sẽ sử dụng lệnh ```cat``` để in ra nội dung của file ```data.txt``` sau đó kết hợp sử dụng ```grep``` để tìm từ ```millionth``` vì password nằm ở bên cạnh từ này.<br>
+Cụ thể: ```cat data.txt | grep "millionth"```
+
+![alt text](img/level7-1.png)
+
+Password cho level tiếp theo được hiện ra. (```dfwvzFQi4mU0wfNbFOe9RoWskMLg7eEc```)
+
+### Level 8 -> level 9 
+Level này yêu cầu ta cần tìm password được giấu trong file ```data.txt```. Và password là dòng chỉ xuất hiện 1 lần duy nhất trong file đó.
+
+![alt text](img/level8.png)
+
+#### Solution
+Đối với level này, mình sẽ sử dụng lệnh ```sort``` để sắp xếp các dòng trong file ```data.txt```, sau đó mình sẽ kết hợp sử dụng lệnh ```uniq``` để loại bỏ các dòng trùng lặp, tuy nhiên mình sẽ sử dụng thêm option ```-u``` để nó chỉ giữ lại các dòng duy nhất.
+
+![alt text](img/level8-1.png)
+
+Password cho level tiếp theo được hiện ra. (```4CKMh1JI91bUIZZPXDqGanal4xvAg0JM```)
+
+####  References
+- [Piping and Redirection](https://ryanstutorials.net/linuxtutorial/piping.php)
+
+### Level 9 -> level 10
+Level này yêu cầu ta cần tìm password được giấu trong file ```data.txt```. Và password là 1 trong các từ có thể đọc được và theo sau 1 vài ký tự ```=``` trong file đó.
+
+![alt text](img/level9.png)
+
+#### Solution
+Đối với level này, mình sẽ sử dụng lệnh ```strings``` để in ra các chuỗi ký tự có thể đọc được từ file ```data.txt``` và kết hợp sử dụng lệnh ```grep``` để lọc những dòng có chữa ký tự ```=```.
+
+![alt text](img/level9-1.png)
+
+Password cho level tiếp theo được hiện ra. (```FGUW5ilLVJrxX9kMYMmlN4MgbpfMiqey```)
+
+### Level 10 -> level 11
+Level này yêu cầu ta cần tìm password được giấu trong file ```data.txt```. Tuy nhiên, data của file này đã được mã hóa base64.
+
+![alt text](img/level10.png)
+
+#### Solution
+Đối với level này, mình sẽ sử dụng lệnh ```base64``` để giải mã data trong file ```data.txt``` với option ```-d``` (decode).
+
+Cụ thể: ```base -d data.txt```
+
+![alt text](img/level10-1.png)
+
+Password cho level tiếp theo được hiện ra. (```dtR173fZKb0RRsDFSGsg2RWnpNVj3qRr```)
+
+####  References
+- [Base64 on Wikipedia](https://en.wikipedia.org/wiki/Base64)
+
+### Level 11 -> level 12
+Level này yêu cầu ta cần tìm password được giấu trong file ```data.txt```. Tuy nhiên, các kí tự in thường và in hoa của file nãy đã được dịch chuyển 13 vị trí.
+
+![alt text](img/level11.png)
+
+#### Solution
+Đối với level này, mình sẽ sử dụng lệnh ```tr``` để dịch chuyển các kí tự in hoa và in thường sang 13 kí tự nữa để quay lại vị trí ban đầu. (Vì có tổng cộng 26 kí tự)
+
+Cụ thể: ```tr 'A-Za-z' 'N-ZA-z < data.txt```
+
+![alt text](img/level11-1.png)
+
+Password cho level tiếp theo được hiện ra. (```7x16WNeHIi5YkIhWsfFIqoognUTyj9Q4```)
+
+###Level 12 -> level 13
+Level này yêu cầu ta cần tìm password được giấu trong file ```data.txt```. Tuy nhiên, file này là 1 file hex dump và được nén nhiều lần.
+
+![alt text](img/level12.png)
+
+#### Solution
+Trước khi giải quyết level này ta cần tìm hiểu về 1 số lệnh sau:
+- ```cp```: dùng để copy file hoặc folder
+- ```mv```: dùng để di chuyển hoặc đổi tên file hoặc folder
+- ```mkdir```: dùng để tạo folder
+Đối với level này, mình sẽ sử dụng lệnh ```xxd``` để chuyển đổi file hex dump sang dạng binary với option ```-r``` (reverse). Và sau đó mình sẽ sử dụng lệnh ```file``` để xem thông tin phù hợp về file đó. Sau đó mình sẽ đổi tên file phù hợp và thực hiện giải nén nhiều lần.
+
+Cụ thể: ```xxd -r data.txt data```
+
+![alt text](img/level12-1.png)
+
+Password cho level tiếp theo được hiện ra. (```FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn```)
