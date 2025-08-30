@@ -235,7 +235,7 @@ Cụ thể: ```tr 'A-Za-z' 'N-ZA-z < data.txt```
 
 Password cho level tiếp theo được hiện ra. (```7x16WNeHIi5YkIhWsfFIqoognUTyj9Q4```)
 
-###Level 12 -> level 13
+### Level 12 -> level 13
 Level này yêu cầu ta cần tìm password được giấu trong file ```data.txt```. Tuy nhiên, file này là 1 file hex dump và được nén nhiều lần.
 
 ![alt text](img/level12.png)
