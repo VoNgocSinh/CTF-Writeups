@@ -252,3 +252,30 @@ Cụ thể: ```xxd -r data.txt data```
 ![alt text](img/level12-1.png)
 
 Password cho level tiếp theo được hiện ra. (```FO5dwFsc0cbaIiH0h8J2eUks2vdTDwAn```)
+
+####  References
+- [Hex Dump on Wikipedia](https://en.wikipedia.org/wiki/Hex_dump)
+
+### Level 13 -> level 14
+Level này chứa password cho level tiếp theo, tuy nhiên password chỉ đọc được bởi user bandit14. Nhưng ta lại được cung cấp 1 private SSH key dùng để kết nối vào level tiếp theo.
+
+![alt text](img/level13.png)
+
+#### Solution
+Trước khi giải quyết level này ta cần tìm hiểu về 1 số lệnh sau:
+- ```ssh``: dùng để kết nối bảo mật vào server
+- ```telnet```: dùng để kết nối không bảo mật vào server
+- ```nc```: công cụ gửi/nhận dữ liệu qua TCP/UDP,...
+- ```openssl```: dùng để mã hóa, giải mã dữ liệu, tạo và kiểm tra các kết nối SSL/TLS
+- ```s_client```: lệnh con của ```openssl``` dùng để kết nối vào server SSL/TLS
+- ```nmap```: dùng để scan mạng như tìm host, tìm port, ...
+
+Đối với level này, mình sẽ sử dụng lệnh ```ssh``` để kết nối vào level tiếp theo (level 14), và mình sẽ sử dụng thêm option ```-i``` để truyền vào path của ```sshkey.private```.
+
+Cụ thể: ```ssh bandit14@bandit.labs.overthewire.org -p 2220 -i sshkey.private```
+
+![alt text](img/level13-1.png)
+
+Và thế là mình đã kết nối được tới level tiếp theo.
+
+![alt text](img/level13-2.png)
