@@ -263,7 +263,7 @@ Level này chứa password cho level tiếp theo, tuy nhiên password chỉ đ�
 
 #### Solution
 Trước khi giải quyết level này ta cần tìm hiểu về 1 số lệnh sau:
-- ```ssh``: dùng để kết nối bảo mật vào server
+- ```ssh```: dùng để kết nối bảo mật vào server
 - ```telnet```: dùng để kết nối không bảo mật vào server
 - ```nc```: công cụ gửi/nhận dữ liệu qua TCP/UDP,...
 - ```openssl```: dùng để mã hóa, giải mã dữ liệu, tạo và kiểm tra các kết nối SSL/TLS
@@ -279,3 +279,140 @@ Cụ thể: ```ssh bandit14@bandit.labs.overthewire.org -p 2220 -i sshkey.privat
 Và thế là mình đã kết nối được tới level tiếp theo.
 
 ![alt text](img/level13-2.png)
+
+Password cho level tiếp theo được hiện ra. (```MU4VWeTyJk8ROof1qqmcBPaLh7lDCPvS```). <br>
+Note: Được lấy khi kết nối vào level tiếp theo.
+
+#### References
+- [SSH/OpenSSH/Keys](https://help.ubuntu.com/community/SSH/OpenSSH/Keys)
+
+### Level 14 -> level 15
+Level này yêu cầu ta kết nối giao thức với localhost và port 30000, sau đó gửi password của level hiện tại để nhận được password của level tiếp theo.
+
+![alt text](img/level14.png)
+
+#### Solution
+
+Đối với level này, mình sẽ sử dụng lệnh ```telnet``` để kết nối vào localhost với port ```30000```.
+
+Cụ thể: ```telnet localhost 30000```
+
+Sau đó mình sẽ nhập password của level hiện tại, được lưu ở path ```/etc/bandit_pass/bandit14```.
+
+![alt text](img/level14-1.png)
+
+Password cho level tiếp theo được hiện ra. (```8xCjnmgoKbGLhHFAZlGE5Tmu4M2tKJQo```)
+
+#### References
+- [How the Internet works in 5 minutes (YouTube) ](https://www.youtube.com/watch?v=7_LPdttKXPc)
+- [IP Addresses](https://computer.howstuffworks.com/web-server5.htm)
+- [IP Address on Wikipedia](https://en.wikipedia.org/wiki/IP_address)
+- [Localhost on Wikipedia](https://en.wikipedia.org/wiki/Localhost)
+- [Ports](https://computer.howstuffworks.com/web-server8.htm)
+- [Port (computer networking) on Wikipedia](https://en.wikipedia.org/wiki/Port_(computer_networking))
+
+### Level 15 -> level 16
+Level này yêu cầu ta kết nối giao thức với localhost và port 30001 kết hợp sử dụng mã hóa SSL/TLS. 
+
+![alt text](img/level15.png)
+
+#### Solution
+
+Trước khi giải quyết level này ta cần tìm hiểu về 1 số lệnh sau:
+- ```ncat```:dùng để đọc và ghi dữ liệu qua mạng bằng TCP/UDP.
+
+- ```socat```:dùng để chuyển tiếp dữ liệu giữa 2 địa chỉ mạng hoặc file.
+- ```netstat```:dùng để hiển thị các kết nối mạng, bảng định tuyến, thống kê giao diện, v.v.
+- ```ss```:dùng để hiển thị các socket đang hoạt động.
+
+Đối với level này, mình sẽ sử dụng lệnh ```openssl s_client``` để kết nối vào localhost với port ```30001```.
+
+Cụ thể: ```openssl s_client -connect localhost:30001```
+
+Sau đó mình sẽ nhập password của level hiện tại, được lưu ở path ```/etc/bandit_pass/bandit15```.
+
+![alt text](img/level15-1.png)
+
+Password cho level tiếp theo được hiện ra. (```kSkvUpMQ7lBYyCM4GBPvCvT1BfWRy0Dx```)
+
+#### References
+- [Secure Socket Layer/Transport Layer Security on Wikipedia](https://en.wikipedia.org/wiki/Transport_Layer_Security)
+- [OpenSSL Cookbook - Testing with OpenSSL](https://www.feistyduck.com/library/openssl-cookbook/online/testing-with-openssl/index.html)
+
+### Level 16 -> level 17
+Level này yêu cầu ta kết nối vào localhost và 1 port nào đó nằm trong phạm vi từ 31000 đến 32000 và có SSL/TLS. Trong số các port đó, có duy nhất 1 port là cung cấp cho chúng ta thông tin về level tiếp theo, còn các port còn lại khi ta nhập password của level này thì nó sẽ in lại password đấy.
+
+![alt text](img/level16.png)
+
+#### Solution
+
+Đối với level này, đầu tiên mình sẽ sử dụng lệnh ```nmap``` để scan các port đang hoạt động. Và mình sẽ sử dụng thêm option ```-p 31000-32000``` để scan port trong phạm vi 31000-32000 kết hợp với option ```-sV``` để xem đầy đủ thông tin hơn về port đó(Ví dụ như chứa giao thức gì).
+
+Cụ thể: ```nmap -sV -p 31000-32000 localhost```
+
+![alt text](img/level16-1.png)
+
+Như ta thấy, ta đã scan ra 5 port trong phạm vi 31000-32000 và có 2 port có SSL là 31518 và 31790. Vì vậy mình sẽ thử kết nối lần lượt vào 2 cổng port này để xem thử.
+
+![alt text](img/level16-2.png)
+
+Sau khi thử kết nối lần lượt cả 2 port thì port thứ 2 cho ra khóa RSA cho level tiếp theo và mình sẽ ssh để kết nối vào level tiếp theo.
+
+Password cho level tiếp theo. (```EReVavePLFHtFlFsjn3hyzMlvSuSAcRD```) <br>
+Note: được cập nhật khi kết nối vào level tiếp theo.
+#### References
+- [Port scanner on Wikipedia](https://en.wikipedia.org/wiki/Port_scanner)
+
+### Level 17 -> level 18
+Level này cho ta 2 file đó là ```password.new``` và ```password.old```. Trong 2 file này sẽ có duy nhất 1 dòng có nội dung khác nhau và đó là password cho level tiếp theo.
+
+![alt text](img/level17.png)
+
+#### Solution
+
+Đối với level này, mình sẽ sử dụng lệnh ```diff``` (viết tắt của different) để so sánh 2 file ```password.new``` và ```password.old```.
+
+Cụ thể: ```diff password.new password.old```
+
+![alt text](img/level17-1.png)
+
+Password cho level tiếp theo được hiện ra. (```x2gLTTjFwMOhQ8oWNbMN362QKxfRqGlO```)
+
+#### Level 18 -> level 19
+Level này yêu cầu đọc file readme để có thể lấy được password cho level tiếp theo. Tuy nhiên, khi ta kết nối vào level này thì không may file ```.bashrc``` bị lỗi và không thể kết nối vào trong và remote được.
+
+![alt text](img/level18.png)
+
+#### Solution
+Đối với level này, theo mình tìm hiểu thì ta có thể thực hiện lệnh trực tiếp khi chúng ta thực hiện ssh.
+
+Cụ thể: ```ssh bandit18@bandit.labs.overthewire.org -p 2220 cat readme```
+
+![alt text](img/level18-1.png)
+
+Password cho level tiếp theo được hiện ra. (```cGWpMaKXVwDUNgPAVJbWYuGHVn9zl3j8```)
+
+Ngoài ra, vì khi ta ssh vào thì mặc định nó sẽ sử dụng ```pseudo terminal```, nên ta có thể sử dụng option ```-T``` để ép nó không dùng pseudo terminal. Và ta sẽ được sử dụng command như bình thường.
+
+![alt text](img/level18-2.png)
+
+#### References
+- [ssh linux manual page](https://www.man7.org/linux/man-pages/man1/ssh.1.html)
+
+### Level 19 -> level 20
+Level này cho ta 1 file có tên là ```bandit20-do```, file này có dạng setuid và ta được truyền ```argument``` vào để thực hiện lệnh.
+
+![alt text](img/level19.png)
+
+#### Solution
+Đối với level này, đơn giản mình chỉ cần truyền lệnh để thực hiện vào argument khi thực hiện file ```bandit20-do```.
+
+Cụ thể: ```./bandit20-do cat /etc/bandit_pass/bandit20```
+
+![alt text](img/level19-1.png)
+
+Password cho level tiếp theo được hiện ra. (```0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO```)
+
+#### References
+- [setuid on Wikipedia](https://en.wikipedia.org/wiki/Setuid)
+
