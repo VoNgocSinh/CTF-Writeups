@@ -265,7 +265,7 @@ Level này chứa password cho level tiếp theo, tuy nhiên password chỉ đ�
 Trước khi giải quyết level này ta cần tìm hiểu về 1 số lệnh sau:
 - ```ssh```: dùng để kết nối bảo mật vào server
 - ```telnet```: dùng để kết nối không bảo mật vào server
-- ```nc```: công cụ gửi/nhận dữ liệu qua TCP/UDP,...
+- ```nc```: công cụ tạo server, gửi/nhận dữ liệu qua TCP/UDP,...
 - ```openssl```: dùng để mã hóa, giải mã dữ liệu, tạo và kiểm tra các kết nối SSL/TLS
 - ```s_client```: lệnh con của ```openssl``` dùng để kết nối vào server SSL/TLS
 - ```nmap```: dùng để scan mạng như tìm host, tìm port, ...
@@ -416,3 +416,207 @@ Password cho level tiếp theo được hiện ra. (```0qXahG8ZjOVMN9Ghs7iOWsCfZ
 #### References
 - [setuid on Wikipedia](https://en.wikipedia.org/wiki/Setuid)
 
+### Level 20 -> level 21
+Level này cho mình 1 file có dạng ```setuid```, file đó nó kết nối tới localhost với port(argument) có thể lắng nghe. Khi nhập đúng password của level hiện tại nó sẽ gửi password của level tiếp theo.
+
+![alt text](img/level20.png)
+
+#### Solution
+Trước khi giải quyết level này ta cần tìm hiểu về 1 số lệnh sau:
+- ```bash```: dùng để thực thi các lệnh shell
+- ```screen```: dùng để quản lý nhiều phiên terminal trong 1 terminal duy nhất
+- ```tmux```: dùng để quản lý nhiều phiên terminal trong 1 terminal duy nhất (tương tự như screen nhưng hiện đại hơn)
+- ```unix```: dùng để quản lý các job, các tác vụ.
+
+Đối với level này, mình sẽ sử dụng lệnh ```nc``` với option ```-l``` để mở 1 port với localhost có thể nghe. Sau đó mình sẽ truyền arugment vào cho file setuid đó khi thực thi. Và cuối cùng là nhập password của level này để nhận được password của level tiếp theo.
+
+Cụ thể: ```echo -n '0qXahG8ZjOVMN9Ghs7iOWsCfZyXOUbYO' | nc -l localhost 2007 &```
+
+![alt text](img/level20-1.png)
+
+Password cho level tiếp theo được hiện ra. (```EeoULMCra2q0dSkYj561DX7s1CpBuOBt```)
+
+### Level 21 -> level 22
+Level này yêu cầu ta xem thử trong ```/etc/cron.d``` có lệnh nào đang được thực thi.
+
+![alt text](img/level21.png)
+
+#### Solution
+Đối với level này, đầu tiên mình sẽ xem thử trong ```etc/cron.d``` có những gì, và mình thấy có nhiều file cron và để ý thấy có file ```cronjob_bandit22```. Khi mình xem thử bên trong thì có thấy cron này đang thực thi ``` /usr/bin/cronjob_bandit22.sh```. Và mình lại xem thử bên trong file shell đó thì thấy nó lấy password của level tiếp theo được lưu trong ```/etc/bandit_pass/bandit22``` và truyền vào file ```/tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv``` và ```chmod 644``` tức là file đó mình có thể đọc được. Và mình chỉ cần đọc file đó là có thể xem được password cho level tiếp theo.
+
+![alt text](img/level21-1.png)
+
+Password cho level tiếp theo được hiện ra. (```tRae0UfB9v0UzbCdn9cY0gQnds9GF58Q```)
+
+### Level 22 -> level 23
+Tương tự level trước, level này yêu cầu ta xem thử trong ```/etc/cron.d``` có lệnh nào đang được thực thi.
+
+![alt text](img/level22.png)
+
+#### Solution
+Đối với level này, đầu tiên mình sẽ xem thử trong ```etc/cron.d``` có những gì, và mình thấy có nhiều file cron và để ý thấy có file ```cronjob_bandit23```. Khi mình xem thử bên trong thì có thấy cron này đang thực thi ``` /usr/bin/cronjob_bandit23.sh```. Và mình lại xem thử bên trong file shell đó thì thấy nó lấy password của level tiếp theo được lưu trong ```/etc/bandit_pass/$myname``` và truyền vào file ```/tmp/$mytarget```. Ta thấy ```myname=$(whoami)``` mà whoami trong trường hợp này là ```bandit23```. Còn ```mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)``` mà ta đã biết được myname rồi nên mình sẽ thay myname thành bandit23 để lấy mã ```md5sum```. Sau đó chỉ cần in ra ```/tmp/$mytarget``` với mytarget thay bằng md5sum đó.
+
+![alt text](img/level22-1.png)
+
+Password cho level tiếp theo được hiện ra. (```0Zf11ioIjMVN551jX3CmStKLYqjk54Ga```)
+
+### Level 23 -> level 24
+Tương tự như 2 level trước:), level này tiếp tục yêu cầu ta xem thử trong ```/etc/cron.d``` có lệnh nào đang được thực thi.
+
+![alt text](img/level23.png)
+
+#### Solution
+Đối với level này, đầu tiên mình sẽ xem thử trong ```etc/cron.d``` có những gì, và mình thấy có nhiều file cron và để ý thấy có file ```cronjob_bandit24```. Khi mình xem thử bên trong thì có thấy cron này đang thực thi ``` /usr/bin/cronjob_bandit24.sh```. Và mình lại xem thử bên trong file shell đó thì thấy nó sẽ lần lượt duyệt qua các file có trong ``` /var/spool/$myname/foo```, sau đó thực thi file đó và xóa file đó. Vì vậy mình sẽ tạo 1 shell lưu ở trong path đó và sẽ đọc password ở ```bandit_pass/bandit24``.
+
+![alt text](img/level23-1.png)
+
+Tạo script
+
+![alt text](img/level23-2.png)
+
+Password cho level tiếp theo được hiện ra. (```gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8```)
+
+### Level 24 -> level 25
+Level yêu cầu mình kết nối với ```localhost``` và port ```30002```. Sau đó, nhập password của level này kèm với mã pincode gồm 4 chữ số.
+
+![alt text](img/level24.png)
+
+#### Solution
+Đối với level này, mình sẽ tạo 1 script shell sau đó brute-force từ 0000-9999. Cụ thể hơn, mình sẽ sử dụng lệnh ```nc``` kèm option ```-N``` để khi truyền đầu vào thì sẽ đóng socket cả đọc và ghi.
+
+Cụ thể: ```echo gb8KRRCsshuZXI0tUuR6ypOFjiZbf3G8 1234 | nc localhost 30002 -N```
+
+![alt text](img/level24-1.png)
+
+Thực hiện để lấy password cho level kế tiếp khi nhận được password được lưu ở file ```pass.txt```.
+
+![alt text](img/level24-2.png)
+
+Password cho level tiếp theo được hiện ra. (```iCi86ttT4KSNe1armKiwbQNmB3YJP3q4```)
+
+### Level 25 -> level 26
+Level này yêu cầu mình kết nối tới level tiếp theo, tuy nhiên level tiếp theo shell không sử dụng ```/bin/bash``` mà là một thứ gì đó.
+
+![alt text](img/level25.png)
+
+#### Solution
+Trước khi giải quyết level này ta cần tìm hiểu về 1 số lệnh sau:
+- ```more```: dùng để xem nội dung của file từng trang một.
+- ```vi```: dùng để chỉnh sửa file văn bản.
+- ```id```: dùng để in ra thông tin về người dùng hiện tại.
+- ```pwd```: dùng để in ra đường dẫn thư mục hiện tại.
+
+Đối với level này, vì level tiếp không phải là /bin/bash nên đầu tiên mình sẽ xem thử level tiếp theo dùng shell gì. Mình sẽ sử dụng. Theo như mình tìm hiểu thì thông tin về user như UID, GID,.. và đặc biệt là shell mặc định sẽ được lưu ở trong file ```/etc/passwd```. Và vì thế, mình sẽ ```cat``` và ```grep``` để tìm user ```bandit26``` để xem shell mặc định khi đăng nhập vào user đó là gì. Và sau đó in ra shell đó.
+
+![alt text](img/level25-1.png)
+
+Như hình ở trên ta có thể thấy, sau khi đăng nhập nó sẽ tự động sử dụng lệnh ```more``` để xem nội dung của file ```text.txt```, và sau đó exit. Và mình sẽ đăng nhập vào thử.
+
+![alt text](img/level25-2.png)
+
+Sau khi đọc xong, nó exit luôn vì nội dung của nó quá ngắn. Vì vậy, sau khi tìm hiểu mình sẽ thử thu nhỏ khung hình lại nó chiếu nội dung file ít hơn. Sau đó mình sẽ sử dụng ```v``` để vào ```vim```, và tiếp theo là set shell bằng /bin/bash và chuyển sang shell ```bash``` với lệnh ```:!bash```. Sau đó chiếm quyền và in ra password của level tiếp theo.
+
+![alt text](img/level25-3.png)
+
+Password cho level tiếp theo được hiện ra. (```s0773xxkk0MXfdqOfPRVr9L3jJBUOgCZ```)
+
+### Level 26 -> level 27
+Level yêu cầu mình kết nối tới level tiếp theo tương tự như level 20. (SUID)
+
+![alt text](img/level26.png)
+
+#### Solution
+Sau khi kết nối được tới level này và chuyển qua được shell bash. Mình check thấy có phải SUID ```bandit27_do``` với argument truyền vào là để thực thi 1 lệnh (tương tự level 20). Vì vậy mình cũng sẽ thực hiện tương tự như level 20 là truyền vào path của file lưu password cho level tiếp theo (```/etc/bandit_pass/bandit27```).
+
+![alt text](img/level26-1.png)
+
+Password cho level tiếp theo được hiện ra. (```upsNCc7vzaRDx6oZC6GiR6ERwe1MowGB```)
+
+### Level 27 -> level 28
+Level này yêu cầu mình clone repo (```ssh://bandit27-git@localhost/home/bandit27-git/repo``` và port ```2220```) xuống và tìm password của level tiếp theo được lưu trong đó.
+
+![alt text](img/level27.png)
+
+#### Solution
+Đối với level này, mình sử dụng lệnh ```git clone``` với argument là repo theo yêu cầu.
+
+Cụ thể: ``` git clone ssh://bandit27-git@bandit.labs.overthewire.org:2220/home/bandit27-git/repo```.
+
+![alt text](img/level27-1.png)
+
+Sao đó mình check thử repo thì thấy password được lưu trong ```README```.
+
+![alt text](img/level27-2.png)
+
+Password cho level tiếp theo được hiện ra. (```Yz9IpL0sBcCeuG7m9uQFt8ZNpS4HZRcN```)
+
+### Level 28 -> level 29
+Tương tự như level trước, level yêu clone repo (```ssh://bandit28-git@localhost/home/bandit28-git/repo``` và port ```2220```) xuống và tìm password cho level tiếp theo.
+
+![alt text](img/level28.png)
+
+#### Solution
+Đối với level này, mình sẽ sử dụng ```git clone``` để clone repo xuống như level trước đó và sau đó tìm password. Tuy nhiên khi ```cat``` ra file ```README.md``` thì phần password chỉ có toàn chữ cái ```x```. Sau khi tìm hiểu thì mấy thấy có lệnh git log để xem lịch sử sửa đổi của các lần commit. Và đúng như vậy trước đó password vẫn còn nguyên vẹn nhưng sau đó đã bị fix. Vì vậy mình đã sử dụng lệnh ```git checkout``` để chuyển lại lần commit đó để xem nội dung file lúc đó. Và sau đó lấy được password.
+
+![alt text](img/level28-1.png)
+
+Chuyển sang lần commit với id đó.
+
+![alt text](img/level28-2.png)
+
+Password cho level tiếp theo được hiện ra. (```4pT1t5DENaYuqnqvadYs1oE4QLCdjmJ7```)
+
+### Level 29 -> level 30
+Tương tự như level trước, level yêu clone repo (```ssh://bandit29-git@localhost/home/bandit29-git/repo``` và port ```2220```) xuống và tìm password cho level tiếp theo.
+
+![alt text](img/level29.png)
+
+#### Solution
+Đối với level này, mình sẽ sử dụng ```git clone``` để clone repo xuống như level trước đó và sau đó tìm password. Tuy nhiên khi ```cat``` ra file ```README.md``` thì phần password đã bị giấu nhưng tương tự như bài trước, ngoài ```git log``` để xem các lịch sử commit thì chúng ta còn có ```git branch``` để xem các nhánh khác có trong repo (thêm option ```-a``` để xem tất cả các nhánh có trong repo). Sau đó mình đã chuyển sang branch ```dev``` và file ```README.md``` đã hiện password cho level tiếp theo.
+
+![alt text](img/level29-1.png)
+
+Password cho level tiếp theo được hiện ra. (```qp30ex3VLz5MDG1n91YowTv4Q8l7CDZL```)
+
+### Level 30 -> level 31
+Tương tự như level trước, level yêu clone repo (```ssh://bandit30-git@localhost/home/bandit30-git/repo``` và port ```2220```) xuống và tìm password cho level tiếp theo.
+
+![alt text](img/level30.png)
+
+#### Solution
+Đối với level này, mình sẽ sử dụng ```git clone``` để clone repo xuống như level trước đó và sau đó tìm password. Tuy nhiên khi ```cat``` ra file ```README.md``` thì phần password đã bị giấu nhưng tương tự như bài trước, ngoài ```git log``` và ```git branch``` ra chúng ta còn có ```git tag``` để xem các tag của các commit được đánh dấu. Vì vậy mình sẽ sử dụng git tag để xem các commit được đánh dấu và dùng ```git show``` để xem chi tiết về commit đó.
+
+![alt text](img/level30-1.png)
+
+Password cho level tiếp theo được hiện ra. (```fb5S2xb7bRyFmAvQYQGEqsbhVyJqhnDy```)
+
+### Level 31 -> level 32
+Tương tự như level trước, level yêu clone repo (```ssh://bandit31-git@localhost/home/bandit31-git/repo``` và port ```2220```) xuống và tìm password cho level tiếp theo.
+
+![alt text](img/level31.png)
+
+#### Solution
+Đối với level này, mình sẽ sử dụng ```git clone``` để clone repo xuống như level trước đó và sau đó tìm password. Tuy nhiên khi ```cat``` ra file ```README.md``` nội dung của file bảo là mình tạo 1 file ```key.txt``` với content là ```May I come in?``` sau đó push lên server. Vì vậy mình sẽ tạo file tương ứng đó và sử dụng:
+- ```git add```: để thêm file vào các file cần push 
+- ```git commit```: để lưu lại các thay đổi
+- ```git push```: để đẩy các commit lên server
+
+![alt text](img/level31-1.png)
+
+Push file lên server.
+
+![alt text](img/level31-2.png)
+
+Password cho level tiếp theo được hiện ra. (```3O9RfhqyAlVBEZpVb6LYStshZoqoSx5K```)
+
+### Level 32 -> level 33
+Level yêu cầu mình tìm password cho level tiếp theo. Tuy nhiên trong level hiện tại, khi chúng ta connect vào thì nó sẽ tự động khởi chạy uppershell.
+
+![alt text](img/level32.png)
+
+#### Solution
+Đối với level này, vì khi chúng ta thực hiện lệnh nào đó thì nó sẽ tự động uppercase shell đó lên vì vậy nó sẽ không thực hiện được và báo lỗi. Vì vậy, sau khi tìm hiểu và thử thì mình thấy chúng ta có ```$0``` sẽ lưu shell mà hiện tại chúng ta đang dùng. Nên mình sẽ khởi chạy lại shell đó và thực hiện cat password của level tiếp theo.
+
+![alt text](img/level32-1.png)
+
+Password cho level tiếp theo được hiện ra. (```tQdtbs5D5i2vJwkO8mEyYEyTL8izoeJ0```)
