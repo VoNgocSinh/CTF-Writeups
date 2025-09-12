@@ -96,6 +96,8 @@ print(output.readallS())
 #### Flag
 ```pwn.college{84QGDVvZkB175O8V2O8f0fLeUsT.QXwEDOzwCMxADNwEzW}```
 
+---
+
 ### Level 3 - add-to-register
 ---
 
@@ -143,3 +145,55 @@ print(output.readallS())
 
 #### Flag
 ```pwn.college{wd0wKMwgM-5ShaBXefwLGguJct2.dVTOxwCMxADNwEzW}```
+
+---
+
+### Level 4 - linear-equation-register
+
+---
+
+#### Tóm tắt đề bài
+Đối với level này, chúng ta sẽ phải làm việc với ```thanh ghi``` (register). Ta sẽ được sửa đổi giá trị của các ```thanh ghi```.
+
+Chúng ta sẽ đặt một số giá trị trong bộ nhớ một cách động trước mỗi lần chạy. Mỗi lần chạy, các giá trị này sẽ thay đổi. Điều này có nghĩa là ta sẽ cần phải thực hiện một số phép toán công thức với các thanh ghi. Ta sẽ được biết thanh ghi nào được thiết lập trước và ta nên đặt kết quả vào đâu. Trong hầu hết các trường hợp, đó là `rax`.
+
+`Lưu ý:` Có một sự khác biệt quan trọng giữa `mul` (nhân không dấu) và `imul` (nhân có dấu) về việc các thanh ghi nào được sử dụng. Hãy xem tài liệu của các lệnh này để thấy sự khác biệt.
+
+Trong trường hợp này, mình sẽ dùng `imul`.
+
+Nhiệm vụ của bài:
+- `f(x) = mx + b`, trong đó:  
+  - `m = rdi  `
+  - `x = rsi`
+  - `b = rdx ` 
+- Đặt kết quả vào `rax`.
+
+---
+
+#### Lời giải
+Bài này mình sẽ sử dụng các phép toán ```add```, ```mov``` và ```imul``` được cho ở trên, để tính toán giá trị tương ứng cho thanh ghi ```rdi```:
+- ```mov rax, rdi```
+- ```imul rax, rsi```
+- ```add rax, rdx```
+```python
+import pwn
+
+pwn.context.update(arch="amd64")
+output = pwn.process("/challenge/run")
+
+asm = """
+    mov rax, rdi
+    imul rax, rsi
+    add rax, rdx
+"""
+
+output.write(pwn.asm(asm))
+print(output.readallS())
+```
+
+---
+
+#### Flag
+```pwn.college{Ak972rqZI3bTT3lQaA-NewS-9el.dZTOxwCMxADNwEzW}```
+
+---
