@@ -1,4 +1,4 @@
-# Overthewire - writeups CTF
+# Pwn.college - writeups CTF
 
 - **Challenge:** Assembly Level 1 -> 30
 - **Category:** Programming languages
