@@ -322,6 +322,11 @@ print(output.readallS())
 ---
 
 ### Level 7 - set-upper-byte
+
+---
+
+#### Tóm tắt đề bài
+
 Đối với level này, chúng ta sẽ phải làm việc với ```thanh ghi``` (register). Ta sẽ được sửa đổi giá trị của các ```thanh ghi```.
 
 Chúng ta sẽ đặt một số giá trị trong bộ nhớ một cách động trước mỗi lần chạy. Mỗi lần chạy, các giá trị này sẽ thay đổi. Điều này có nghĩa là ta sẽ cần phải thực hiện một số phép toán công thức với các thanh ghi. Ta sẽ được biết thanh ghi nào được thiết lập trước và ta nên đặt kết quả vào đâu. Trong hầu hết các trường hợp, đó là `rax`.
@@ -445,6 +450,11 @@ print(output.readallS())
 ---
 
 ### Level 9 - byte-extraction
+
+---
+
+#### Tóm tắt đề bài
+
 Đối với level này, chúng ta sẽ phải làm việc với ```thanh ghi``` (register). Ta sẽ được sửa đổi giá trị của các ```thanh ghi```.
 
 Chúng ta sẽ đặt một số giá trị trong bộ nhớ một cách động trước mỗi lần chạy. Mỗi lần chạy, các giá trị này sẽ thay đổi. Điều này có nghĩa là ta sẽ cần phải thực hiện một số phép toán công thức với các thanh ghi. Ta sẽ được biết thanh ghi nào được thiết lập trước và ta nên đặt kết quả vào đâu. Trong hầu hết các trường hợp, đó là `rax`.
@@ -868,6 +878,8 @@ print(output.readallS())
 
 ---
 
+#### Tóm tắt đề bài
+
 Bây giờ chúng ta sẽ set vài giá trị trong memory trước ghi run. Mỗi lần chay, các giá trị đó sẽ thay đổi. Điều này có nghĩa là bạn cần thực hiện các thao tác theo công thức cùng với thanh ghi. Chúng tôi sẽ nói cho bạn thanh ghi nào sẽ được thiết lập trước đó và bạn nên thêm nó vào kết quả. Trong hầu hết các trường hợp, đó là `rax`.
 
 Đối với cấp độ này, bạn sẽ làm việc với menory. Điều sẽ sẽ yêu cầu bạn đọc và ghi dữ liệu tuyến tính trong memory. Nếu bạn còn bối rối, hãy thử nhìn vào địa chỉ tuyến tính. Bạn cũng có thể yêu cầu hủy tham chiếu nhiều lần đến những thứ chúng tôi lưu vào bộ nhớ để bạn sử dụng.
@@ -922,6 +934,8 @@ print(output.readallS())
 ### Level 16 - memory-size-access
 
 ---
+
+#### Tóm tắt đề bài
 
 Bây giờ chúng ta sẽ set vài giá trị trong memory trước ghi run. Mỗi lần chay, các giá trị đó sẽ thay đổi. Điều này có nghĩa là bạn cần thực hiện các thao tác theo công thức cùng với thanh ghi. Chúng tôi sẽ nói cho bạn thanh ghi nào sẽ được thiết lập trước đó và bạn nên thêm nó vào kết quả. Trong hầu hết các trường hợp, đó là `rax`.
 
@@ -1135,6 +1149,10 @@ print(output.readallS())
 
 ### Level 19 - stack-subtraction
 
+---
+
+#### Tóm tắt đề bài
+
 Bây giờ chúng ta sẽ set vài giá trị trong memory trước ghi run. Mỗi lần chay, các giá trị đó sẽ thay đổi. Điều này có nghĩa là bạn cần thực hiện các thao tác theo công thức cùng với thanh ghi. Chúng tôi sẽ nói cho bạn thanh ghi nào sẽ được thiết lập trước đó và bạn nên thêm nó vào kết quả. Trong hầu hết các trường hợp, đó là `rax`.
 
 Trong cấp độ này, bạn sẽ làm việc với stack, vùng nhớ sẽ có khả năng mở rộng và co lại 1 cách linh hoạt. Bạn sẽ được yêu cầu đọc và ghi vào stack, nó yêu cầu bạn sẽ sử dụng `pop` và `push`. Có lẽ bạn cũng sẽ cần sử dụng thanh ghi con trỏ ngăn xếp (pointer register -> `rsp`) được hiểu là con trỏ của ngăn xếp.
@@ -1259,5 +1277,566 @@ print(output.readallS())
 
 #### Flag
 ```pwn.college{Ax8XdJMcTntp3jk_mSam_VfEkx1.dhDMywCMxADNwEzW}```
+
+---
+
+### Level 21 - average-stack-values
+
+---
+
+#### Tóm tắt đề bài
+
+Bây giờ chúng ta sẽ set vài giá trị trong memory trước ghi run. Mỗi lần chay, các giá trị đó sẽ thay đổi. Điều này có nghĩa là bạn cần thực hiện các thao tác theo công thức cùng với thanh ghi. Chúng tôi sẽ nói cho bạn thanh ghi nào sẽ được thiết lập trước đó và bạn nên thêm nó vào kết quả. Trong hầu hết các trường hợp, đó là `rax`.
+
+Trong cấp độ này, bạn sẽ làm việc với `stack`, vùng nhớ sẽ có khả năng mở rộng và co lại 1 cách linh hoạt. Bạn sẽ được yêu cầu đọc và ghi vào `stack`, nó yêu cầu bạn sẽ sử dụng `pop` và `push`. Có lẽ bạn cũng sẽ cần sử dụng thanh ghi con trỏ ngăn xếp (pointer register -> `rsp`) được hiểu là con trỏ của ngăn xếp.
+
+Trong cấp độ trước, bạn đã sử dụng `push` và `pop` để lưu và load dữ liệu từ stack. Tuy nhiên, bạn cũng có thể truy cập trực tiếp vào stack bằng cách sử dụng con trỏ ngăn xếp.
+
+Trong x86, địa chỉ ngăn xếp được lưu trong thanh ghi đặc biệt (`rsp`). `rsp` thường lưu trữ địa chỉ bộ nhớ của đỉnh stack. Là địa chỉ của phần tử được thêm vào cuối stack.
+
+Tương tự như các cấp độ trước, chúng ta có thể sử dụng `[rsp]` để truy cập vào giá trị được lưu tại địa chỉ trong `rsp`.
+
+Nhiệm vụ của bài:
+- Không sử dụng `pop`, hãy tính toán giá trị trung bình của các phần tử có kiểu dữ liệu `quad word` được lưu liên tiếp trên stack. Thêm giá trị trung bình vào stack.
+- Hint:
+    - RSP+0x?? Quad Word A
+    - RSP+0x?? Quad Word B
+    - RSP+0x?? Quad Word C
+    - RSP Quad Word D
+
+---
+
+#### Lời giải
+
+Bài này mình truy cập trực tiếp vào các địa chỉ liên tiếp và bắt đầu là địa chỉ được lưu tại thanh ghi `rsp`, sau đó mình sẽ tính giá trị trung bình và đẩy lên `stack`:
+
+-    `mov rax, [rsp]`
+-    `add rax, [rsp + 8]`
+-    `add rax, [rsp + 16]`
+-    `add rax, [rsp + 24]`
+-    `mov rbx, 0x4`
+-    `div rbx`
+-    `push rax`
+
+
+```python
+import pwn
+
+pwn.context.update(arch="amd64")
+output = pwn.process("/challenge/run")
+
+asm = """
+    mov rax, [rsp]
+    add rax, [rsp + 8]
+    add rax, [rsp + 16]
+    add rax, [rsp + 24]
+    mov rbx, 0x4
+    div rbx
+    push rax
+"""
+
+output.write(pwn.asm(asm))
+print(output.readallS())
+```
+
+---
+
+#### Flag
+```pwn.college{IBbMl_zp-x6AkWRvgllLkw7QUdE.dlDMywCMxADNwEzW}```
+
+---
+
+### Level 22 - absolute-jump
+
+--- 
+
+#### Tóm tắt đề bài
+
+Bây giờ chúng ta sẽ set vài giá trị trong memory trước ghi run. Mỗi lần chay, các giá trị đó sẽ thay đổi. Điều này có nghĩa là bạn cần thực hiện các thao tác theo công thức cùng với thanh ghi. Chúng tôi sẽ nói cho bạn thanh ghi nào sẽ được thiết lập trước đó và bạn nên thêm nó vào kết quả. Trong hầu hết các trường hợp, đó là `rax`.
+
+Trong cấp độ này, bạn sẽ được làm việc với kiểm soát thao tác luồng. Điều này liên quan đến việc sử dụng các hướng dẫn gián tiếp hoặc trực tiếp để điều khiển các thanh ghi đặc biệt `rip`, con trỏ lệnh. Bạn sẽ sử dụng các lệnh như `jmp`, `call`, `cmp`, và 1 số lựa chọn thay thế việc thực hiện các yêu cầu hành vi. 
+
+Trước đó, bạn đã học về làm cách nào để thao tác data trong `pseudo-control` (kiểm soát giả), nhưng x86 thực sự cung cấp các hướng dẫn cho bạn kiểm soát luồng trực tiếp.
+
+Có 2 cách chính để điều khiển luồng điều khiển:
+- Gọi lệnh `jump`
+- Gọi lệnh `call`
+
+Trong cấp độ này, bạn sẽ làm việc với jumps.
+
+Có 2 loại jumps.
+- jumps có điều kiện
+- jumps không có điều kiện
+
+Jumps không có điều kiện luôn được kích hoạt và không dựa trên kết quả của các lệnh trước đó.
+
+Như bạn đã biết, vùng nhớ có thể lưu data và các instructions. Code của bạn sẽ được lưu tại `0x400042` (điều này sẽ thay đổi mỗi khi chạy).
+
+Trong tất cả các jumps, có 3 loại như sau:
+- Nhảy tương đối (relative jumps): jump + or - next instruction.
+- Nhảy tuyệt đối (absolute jumps): nhảy tới địa chỉ cụ thể
+- Nhảy gián tiếp (indirect jumps): nhảy tới địa chỉ cụ thể trong thanh ghi.
+
+Trong x86, lệnh nhảy tuyệt đối (nhảy đến một địa chỉ cụ thể) được thực hiện bằng cách đầu tiên tải địa chỉ đích vào một thanh ghi mục đích chung (chúng ta sẽ gọi thanh ghi giữ chỗ này là `reg`), sau đó thực hiện lệnh `jmp reg`.
+
+Trong cấp độ này, chúng tôi sẽ yêu cầu bạn thực hiện 1 lệnh nhảy tuyệt đối. 
+
+Nhiệm vụ của bài:
+- Nhảy tới địa chỉ tuyệt đối: `0x403000`.
+
+---
+
+#### Lời giải
+
+Bài này mình sẽ truyền địa chỉ để nhảy vào 1 thanh ghi, sau đó jumps tới thanh ghi đó:
+
+-   `mov rax, 0x403000`
+-   `jmp rax`
+
+
+```python
+import pwn
+
+pwn.context.update(arch="amd64")
+output = pwn.process("/challenge/run")
+
+asm = """
+    mov rax, 0x403000
+    jmp rax
+"""
+
+output.write(pwn.asm(asm))
+print(output.readallS())
+```
+
+---
+
+#### Flag
+```pwn.college{Yrzc6mRCx6gt0MwNMsDezmAp_qv.QX1EDOzwCMxADNwEzW}```
+
+---
+
+### Level 23 - relative-jump
+
+---
+
+#### Tóm tắt đề bài
+
+Bây giờ chúng ta sẽ set vài giá trị trong memory trước ghi run. Mỗi lần chay, các giá trị đó sẽ thay đổi. Điều này có nghĩa là bạn cần thực hiện các thao tác theo công thức cùng với thanh ghi. Chúng tôi sẽ nói cho bạn thanh ghi nào sẽ được thiết lập trước đó và bạn nên thêm nó vào kết quả. Trong hầu hết các trường hợp, đó là `rax`.
+
+Trong cấp độ này, bạn sẽ được làm việc với kiểm soát thao tác luồng. Điều này liên quan đến việc sử dụng các hướng dẫn gián tiếp hoặc trực tiếp để điều khiển các thanh ghi đặc biệt `rip`, con trỏ lệnh. Bạn sẽ sử dụng các lệnh như `jmp`, `call`, `cmp`, và 1 số lựa chọn thay thế việc thực hiện các yêu cầu hành vi. 
+
+Nhớ lại rằng trong tất cả các jumps, có 3 loại như sau:
+- Nhảy tương đối (relative jumps)
+- Nhảy tuyệt đối (absolute jumps)
+- Nhảy gián tiếp (indirect jumps)
+
+Trong cấp độ này, chúng tôi sẽ yêu cầu bạn thực hiện 1 lệnh nhảy tương đối. Bạn sẽ cần điền 1 khoảng trống trong code của bạn để thực hiện có nhảy tương đối này. Chúng tôi gợi ý sử dụng lệnh `nop`. Nó dài 1 byte và rất dễ đoán.
+
+Trong thực tế, trình biên dịch của chúng tôi có sử dụng 1 tiện ích, `.rept` nói rằng bạn có thể lặp lại lệnh assembly 1 số lần. 
+
+Các lệnh hữu ích cho cấp độ này:
+- `jmp`, `(reg1 | addr | offset)`   
+- `nop`
+
+Gợi ý: Trong nhảy tương đối, hãy tìm hiểu cách sử dụng `x86`. 
+
+Sử dụng những kiến thức ở trên, nhiệm vụ của bài:
+- Đặt lệnh đầu tiên trong code của bạn là `jmp`.
+- Đặt lệnh `jmp` tương đối tới `0x51` bytes  từ vị trí hiện tại.
+- Tại vị trí code ở đây là tương đối sẽ chuyển hưởng luồng điều khiển, đặt `rax` thành `0x1`.
+
+---
+
+#### Lời giải
+
+Bài này mình sẽ sử dụng lệnh `.rept` và `nop` để tạo ra một khoảng code với kích thước `0x51`. Sau đó mình sẽ tạo ra 1 label và jump tới label đó.
+
+-   `jmp rlt`
+-   `.rept 0x51`
+-   `    nop`
+-   `.endr`
+-   `rlt:`
+-   `    mov rax, 0x1`
+
+```python
+import pwn
+
+pwn.context.update(arch="amd64")
+output = pwn.process("/challenge/run")
+
+asm = """
+    jmp rlt
+    .rept 0x51
+    nop
+    .endrz
+    rlt:
+    mov rax, 0x1
+"""
+
+output.write(pwn.asm(asm))
+print(output.readallS())
+```
+
+---
+
+#### Flag
+```pwn.college{gZIbnSCceZgFosyEjrEKENNK5Ra.QX2EDOzwCMxADNwEzW}```
+
+---
+
+### Level 24 - jump-trampoline
+
+---
+
+#### Tóm tắt đề bài
+
+Bây giờ chúng ta sẽ set vài giá trị trong memory trước ghi run. Mỗi lần chay, các giá trị đó sẽ thay đổi. Điều này có nghĩa là bạn cần thực hiện các thao tác theo công thức cùng với thanh ghi. Chúng tôi sẽ nói cho bạn thanh ghi nào sẽ được thiết lập trước đó và bạn nên thêm nó vào kết quả. Trong hầu hết các trường hợp, đó là `rax`.
+
+Trong cấp độ này, bạn sẽ được làm việc với kiểm soát thao tác luồng. Điều này liên quan đến việc sử dụng các hướng dẫn gián tiếp hoặc trực tiếp để điều khiển các thanh ghi đặc biệt `rip`, con trỏ lệnh. Bạn sẽ sử dụng các lệnh như `jmp`, `call`, `cmp`, và 1 số lựa chọn thay thế việc thực hiện các yêu cầu hành vi. 
+
+Bây giờ, chúng tôi sẽ gộp 2 level trước lại
+
+Nhiệm vụ của bài:
+
+- Tạo 2 lệnh nhảy:
+    - Đặt lệnh đầu tiên trong code của bạn là `jmp`.
+    - Đặt lệnh `jmp` tương đối tới `0x51` bytes  từ vị trí hiện tại.
+    - Tại 0x51, thực hiện theo yêu cầu sau:
+        - Đặt giá trị trên đỉnh của stack vào thanh ghi `rdi`.
+        - Sử dụng `jmp` để thực hiện nhảy tuyệt đối tới địa chỉ 0x403000.
+
+---
+
+#### Lời giải
+
+Bài này mình sẽ kết hợp các lệnh 2 cấp độ trước lại để có thể thực hiện yêu cầu của bài. Đầu tiên mình sẽ sử dụng lệnh `.rept` và `nop` để tạo ra một khoảng code với kích thước `0x51`. Sau đó mình sẽ tạo ra 1 label và jump tới label đó. Trong label đó mình sẽ đặt giá trị trên đỉnh của stack vào thanh ghi `rdi` và nhảy tới địa chỉ `0x403000`.
+
+-   `jmp rlt`
+-   `.rept 0x51`
+-   `nop`
+-   `.endr`
+-   `rlt:`
+-   `pop rdi`
+-   `mov rbx, 0x403000`
+-   `jmp rbx`
+
+```python
+import pwn
+
+pwn.context.update(arch="amd64")
+output = pwn.process("/challenge/run")
+
+asm = """
+    jmp rlt
+    .rept 0x51
+        nop
+    .endr
+    rlt:
+        pop rdi
+        mov rbx, 0x403000
+        jmp rbx
+"""
+
+output.write(pwn.asm(asm))
+print(output.readallS())
+```
+
+---
+
+#### Flag
+```pwn.college{YmmK3ctHyLYm1CMhKmN3aUJeJsi.dBTMywCMxADNwEzW}```
+
+---
+
+### Level 25 - conditional-jump
+
+---
+
+#### Tóm tắt đề bài
+
+Trong cấp độ này, bạn sẽ được làm việc với kiểm soát thao tác luồng. Điều này liên quan đến việc sử dụng các hướng dẫn gián tiếp hoặc trực tiếp để điều khiển các thanh ghi đặc biệt `rip`, con trỏ lệnh. Bạn sẽ sử dụng các lệnh như `jmp`, `call`, `cmp`, và 1 số lựa chọn thay thế việc thực hiện các yêu cầu hành vi. 
+
+Chúng tôi sẽ kiểm tra mã của bạn nhiều lần trong thử thách lần này! Điều này có nghĩa là chúng tôi sẽ chạy code của bạn kết hợp với giá trị random trong mỗi lần chạy để đảm bảo rằng login của bạn đúng để đủ sử dụng trong điều kiện sử dụng bình thường.
+
+Chúng tôi sẽ giới thiệu cho bạn về nhảy nhưng có điều kiện. Một trong những lệnh có giá trị nhất trong x86. Trong ngôn ngữ bậc cao, lệnh if-else được tổ chức kiểu như sau:
+
+    if x is even:
+        is_even = 1
+    else:
+        is_even = 0
+
+Điều này nhìn nó rất quen thuộc vì có thể sử dụng bit-logic, điều mà bạn đã thực hiện ở cấp độ trước. Trong những cấu trúc này, bạn có thể kiểm soát chương trình điều khiển luồng thực thi vào những giá trị động cung cấp cho chương trình.
+
+Thực thi các logic ở trên cùng với jmps có thể trong như sau:
+
+    ; assume rdi = x, rax is output
+    ; rdx = rdi mod 2
+    mov rax, rdi
+    mov rsi, 2
+    div rsi
+    ; remainder is 0 if even
+    cmp rdx, 0
+    ; jump to not_even code if it's not 0
+    jne not_even
+    ; fall through to even code
+    mov rbx, 1
+    jmp done
+    ; jump to this only when not_even
+    not_even:
+    mov rbx, 0
+    done:
+    mov rax, rbx
+    ; more instructions here
+
+Tuy nhiên, bạn muốn nhiều hơn chứ không chỉ mỗi `if-else`. Đôi khi bạn muốn sử dụng 2 câu lệnh if, theo sau là `else`. Để làm được điều đó, bạn cần chắc chắn rằng bạn đã có luồng điều khiển qua 'falls-though` nếu nó bị lỗi. Tất cả phải nhảy đến 1 thực hiện để trách người dùng khác.
+
+Có rất nhiều dạng jumps trong x86, sẽ rất hữu ích khi chúng ta học cách sử dụng. Gần như tất cả đều dựa vào những thứ được gọi là ZF,  Zero Flag. ZF sẽ được set thành 1 khi chúng ta thực hiện so sách và cho ra kết quả là bằng nhau, và 0 với trường hợp còn lại.
+
+Sử dụng những kiến thức được cho ở trên.
+
+Nhiệm vụ của bài:
+
+    if [x] is 0x7f454c46:
+        y = [x+4] + [x+8] + [x+12]
+    else if [x] is 0x00005A4D:
+        y = [x+4] - [x+8] - [x+12]
+    else:
+        y = [x+4] * [x+8] * [x+12]
+
+Ở đây:
+- x = edi, y = eax.
+
+Cho rằng mỗi giá trị hủy tham chiếu là giá trị dword đơn lẻ. Điều này có nghĩa là giá trị có thể bắt đầu bằng một giá trị âm trong mỗi vùng nhớ.
+
+Một giải pháp hợp lệ sẽ sử dụng các lệnh được cho như sau ít nhất 1 lần:
+-   `jmp`, `cmp`    
+
+---
+
+#### Lời giải
+
+Bài này có 3 trường hợp, nên mình sẽ viết từng label cho từng trường hợp đó. Ban đầu mình sẽ viết label đầu cho trường hợp đầu tiên, tiếp theo nếu trong label đó mà so sách không khớp thì nó sẽ nhảy sang label thứ 2, và tiếp tục nếu không khớp nữa thì sẽ nhảy vào label cuối cùng và thực hiện ở đây mà không so sánh nữa. Trong mỗi label sau khi so sánh hợp lệ và thực hiện hết mình sẽ nhảy tới label done.
+
+```python
+import pwn
+
+pwn.context.update(arch="amd64")
+output = pwn.process("/challenge/run")
+
+asm = """
+    jmp .check1
+
+    .check1:
+        cmp dword ptr [edi], 0x7f454c46
+        jne .check2
+
+        mov eax, dword ptr [rdi + 0x4]
+        add eax, dword ptr [rdi + 0x8]
+        add eax, dword ptr [rdi + 0xc]
+        
+        jmp .done
+
+    .check2:
+        cmp dword ptr [edi], 0x00005A4D
+        jne .else
+
+        mov eax, dword ptr [rdi + 0x4]
+        sub eax, dword ptr [rdi + 0x8]
+        sub eax, dword ptr [rdi + 0xc]
+
+        jmp .done
+
+    .else:
+        mov eax, dword ptr [rdi + 0x4]
+        imul eax, dword ptr [rdi + 0x8]
+        imul eax, dword ptr [rdi + 0xc]
+
+        jmp .done
+
+    .done:
+        nop
+"""
+
+output.write(pwn.asm(asm))
+print(output.readallS())
+```
+
+---
+
+#### Flag
+```pwn.college{sd2RjHgda2tWZDtMJYG-U7jB3M1.dFTMywCMxADNwEzW}```
+
+---
+
+### Level 26 - indicrect-jump
+
+---
+
+#### Tóm tắt đề bài
+
+Trong cấp độ này, bạn sẽ được làm việc với kiểm soát thao tác luồng. Điều này liên quan đến việc sử dụng các hướng dẫn gián tiếp hoặc trực tiếp để điều khiển các thanh ghi đặc biệt `rip`, con trỏ lệnh. Bạn sẽ sử dụng các lệnh như `jmp`, `call`, `cmp`, và 1 số lựa chọn thay thế việc thực hiện các yêu cầu hành vi. 
+
+Chúng tôi sẽ kiểm tra mã của bạn nhiều lần trong thử thách lần này! Điều này có nghĩa là chúng tôi sẽ chạy code của bạn kết hợp với giá trị random trong mỗi lần chạy để đảm bảo rằng login của bạn đúng để đủ sử dụng trong điều kiện sử dụng bình thường.
+
+Loại nhảy cuối cùng là nhảy gián tiếp (indirect jump), thường được dùng cho câu lệnh `switch` trong lập trình thực tế. Câu lệnh `switch` là một dạng đặc biệt của cấu trúc if-else, nhưng chỉ sử dụng số để xác định luồng điều khiển sẽ đi đâu.
+
+Ví dụ:  
+
+    switch(number):
+    0: jmp do_thing_0
+    1: jmp do_thing_1
+    2: jmp do_thing_2
+    default: jmp do_default_thing
+
+Trong ví dụ này, `switch` hoạt động trên biến `number`, có thể là 0, 1 hoặc 2. Nếu `number` không nằm trong các giá trị đó, lệnh mặc định sẽ chạy. Bạn có thể coi đây là một phiên bản rút gọn của cấu trúc `else-if`. Trong x86, vì ta thường xuyên làm việc với số, nên không ngạc nhiên khi có thể đưa ra quyết định dựa trên giá trị cụ thể. Nếu biết rõ phạm vi của các số, câu lệnh switch hoạt động rất hiệu quả.
+
+Ví dụ: một jump table là một vùng bộ nhớ liên tiếp lưu các địa chỉ cần nhảy tới.
+
+Bảng nhảy có thể trông như sau:
+
+    [0x1337]      = địa chỉ do_thing_0
+    [0x1337+0x8]  = địa chỉ do_thing_1
+    [0x1337+0x10] = địa chỉ do_thing_2
+    [0x1337+0x18] = địa chỉ do_default_thing
+
+Khi đó, thay vì nhiều lệnh cmp, ta chỉ cần kiểm tra xem number có lớn hơn 2 không. Nếu lớn hơn, luôn nhảy đến:
+- `jmp [0x1337+0x18]`
+
+Ngược lại:
+- `jmp [jump_table_address + number * 8]`
+
+Nhiệm vụ của bài:
+
+    if rdi == 0:
+        jmp 0x40301e
+    else if rdi == 1:
+        jmp 0x4030da
+    else if rdi == 2:
+        jmp 0x4031d5
+    else if rdi == 3:
+        jmp 0x403286
+    else:
+        jmp 0x4932c
+
+Ràng buộc
+
+- Giả sử rdi sẽ không âm.
+-   Không dùng quá 1 lệnh cmp.
+-   Không dùng quá 3 lệnh jmp (mọi loại).
+-   Chúng tôi sẽ cung cấp số để switch trong rdi.
+-   Chúng tôi cũng sẽ cung cấp địa chỉ cơ sở của jump table trong rsi.
+
+Ví dụ cho 1 bảng:
+
+    [0x40427c] = 0x40301e
+    [0x404284] = 0x4030da
+    [0x40428c] = 0x4031d5
+    [0x404294] = 0x403286
+
+--- 
+
+#### Lời giải:
+Bài này ban đầu mình sẽ so sánh rdi với 3, và nếu rdi nhỏ hơn hoặc bằng 3
+thì mình sẽ nhảy đến `[8 * rdi + rsi]`.
+
+```python
+import pwn
+
+pwn.context.update(arch="amd64")
+output = pwn.process("/challenge/run")
+
+asm = """
+    cmp rdi, 0x3
+    jbe .else
+    mov rdi, 4
+
+    .else:
+        mov rax, [rdi * 8 + rsi]
+        jmp rax
+"""
+
+output.write(pwn.asm(asm))
+print(output.readallS())
+```
+
+---
+
+#### Flag
+```pwn.college{cVHVmKjaKUTcS6XbGBrIHC2zQ3b.dJTMywCMxADNwEzW}```
+
+---
+
+### Level 27 - average-loop
+
+---
+
+#### Tóm tắt đề bài
+
+Chúng ta sẽ thiết lập một số giá trị trong bộ nhớ `động` trước mỗi lần chạy. Ở mỗi lần chạy, các giá trị sẽ thay đổi. Điều này có nghĩa là bạn sẽ cần thực hiện một số phép toán công thức với các thanh ghi. Chúng tôi sẽ cho bạn biết thanh ghi nào được thiết lập trước và bạn nên đặt kết quả ở đâu. Trong hầu hết các trường hợp, kết quả sẽ nằm trong `rax`.
+
+Ở cấp độ này, bạn sẽ làm việc với `điều khiển luồng (control flow manipulation)`. Điều này bao gồm việc sử dụng các lệnh để gián tiếp và trực tiếp điều khiển thanh ghi đặc biệt `rip` (instruction pointer). Bạn sẽ sử dụng các lệnh như `jmp, call, cmp` và các biến thể của chúng để triển khai hành vi được yêu cầu.
+
+Trong một cấp trước đó, bạn đã tính trung bình của 4 số nguyên (quad words), đây là một lượng cố định để tính toán. Nhưng làm thế nào để xử lý với những kích thước được cung cấp `khi chương trình đang chạy`?
+
+Trong hầu hết các ngôn ngữ lập trình, có một cấu trúc gọi là `for-loop`, cho phép bạn thực thi một tập hợp lệnh trong một khoảng số lần xác định. Số lần lặp có thể đã được biết trước hoặc được cung cấp động khi chương trình chạy.
+
+Ví dụ, một vòng lặp for có thể được dùng để tính tổng các số từ 1 đến n:
+ 
+    sum = 0
+    i = 1
+    while i <= n:
+        sum += i
+        i += 1
+
+Nhiệm vụ của bài:
+
+- Hãy tính trung bình của n quad words liên tiếp, trong đó:
+
+    - **rdi** = địa chỉ bộ nhớ của quad word đầu tiên  
+    - **rsi** = n (số lượng cần lặp)  
+    - **rax** = giá trị trung bình đã tính  
+
+---
+
+#### Lời giải:
+Bài này ban đầu mình sẽ khởi tạo giá trị ban đầu cho `sum` và `i` được lưu tương ứng ở `rcx` và `rdx`. Sau đó mình sẽ viết 2 label để có thể hoạt động như vòng lặp và tính toán yêu cầu của bài.
+
+```python
+import pwn
+
+pwn.context.update(arch="amd64")
+output = pwn.process("/challenge/run")
+
+asm = """
+    mov rcx, [rdi]
+    mov rdx, 0x1
+
+    jmp .loop
+
+    .loop:
+        cmp rdx, rsi
+        jg .endloop
+
+        add rcx, [rdi + rdx * 0x8]
+        add rdx, 0x1
+
+        jmp .loop
+
+    .endloop:
+        xor rdx, rdx    #rdx:rax / rsi -> clear rdx
+        mov rax, rcx
+        div rsi
+
+"""
+
+output.write(pwn.asm(asm))
+print(output.readallS())
+```
+
+---
+
+#### Flag
+```pwn.college{oPkY2SJxYehy1jmf8co-mDyDm40.dNTMywCMxADNwEzW}```
 
 ---
