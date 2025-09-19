@@ -1840,3 +1840,337 @@ print(output.readallS())
 ```pwn.college{oPkY2SJxYehy1jmf8co-mDyDm40.dNTMywCMxADNwEzW}```
 
 ---
+
+### Level 28 - count-non-zero
+
+---
+
+#### Tóm tắt đề bài
+
+Trong level này, bạn sẽ làm việc với việc thao tác luồng điều khiển. Điều này liên quan đến việc sử dụng các lệnh để gián tiếp và trực tiếp điều khiển thanh ghi đặc biệt `rip`, tức con trỏ lệnh. Bạn sẽ sử dụng các lệnh như `jmp`, `call`, `cmp`, và các biến thể của chúng để thực hiện hành vi được yêu cầu.
+
+Chúng tôi sẽ kiểm tra code của bạn nhiều lần trong level này với các giá trị động. Điều này có nghĩa là chúng tôi sẽ chạy code của bạn với nhiều cách ngẫu nhiên để kiểm tra xem logic có đủ mạnh để hoạt động ổn định không.
+
+Ở các level trước, bạn đã khám phá vòng lặp `for` để lặp lại một số lần, có thể là động hoặc tĩnh. Nhưng nếu bạn muốn lặp cho đến khi gặp một điều kiện thì sao?  
+
+Có một cấu trúc vòng lặp thứ hai gọi là `while-loop` để đáp ứng nhu cầu này. Trong `while-loop`, bạn lặp lại cho đến khi một điều kiện được thỏa mãn.
+
+Ví dụ:
+
+- Giả sử chúng ta có một vùng nhớ với các số liền kề và chúng ta muốn lấy trung bình của tất cả các số cho đến khi gặp một số lớn hơn hoặc bằng `0xff`:
+
+        average = 0
+        i = 0
+        while x[i] < 0xff:
+            average += x[i]
+            i += 1
+        average /= i
+
+Dựa trên kiến thức trên, hãy thực hiện như sau:
+
+Đếm số byte liên tiếp khác 0 trong một vùng nhớ liên tục, với:
+- `rdi` = địa chỉ ô nhớ của byte đầu tiên
+- `rax` = số byte liên tiếp khác 0
+
+Ngoài ra, nếu rdi = 0 thì set rax = 0 (chúng tôi sẽ kiểm tra điều này)!
+
+Và ví dụ có 1 testcase như sau:
+
+- `rdi = 0x1000`
+- `[0x1000] = 0x41`
+- `[0x1001] = 0x42`
+- `[0x1002] = 0x43`
+- `[0x1003] = 0x00`
+
+Sau đó: `rax = 3` sẽ được set
+
+---
+
+#### Lời giải:
+Bài này ban đầu mình sẽ khởi tạo giá trị ban đầu cho biến đếm (`rax`). Sau đó mình sẽ viết 2 label để có thể hoạt động như vòng lặp whole và tính toán yêu cầu của bài. Nhưng phải lưu ý ban đầu sẽ có trường hợp giá trị của rdi sẽ là 0 và nếu ta truy cập vào địa chỉ đó thì sẽ bị lỗi. Nên phải xử lí trước trường hợp này.
+
+```python
+import pwn
+
+pwn.context.update(arch="amd64")
+output = pwn.process("/challenge/run")
+
+asm = """
+    cmp rdi, 0
+    je .endloop
+    xor rax, rax
+
+    jmp .loop
+
+    .loop:
+        cmp byte ptr [rdi + rax], 0x00
+        je .endloop
+
+        add rax, 0x1
+
+        jmp .loop
+
+    .endloop:
+        nop
+
+"""
+
+output.write(pwn.asm(asm))
+print(output.readallS())
+```
+
+---
+
+#### Flag
+```pwn.college{swPCOpn83vVmA_T-MkWFTwMqV25.dRTMywCMxADNwEzW}```
+
+---
+
+### Level 29 - string-lower
+
+---
+
+### Tóm tắt đề bài
+
+Chúng tôi sẽ kiểm tra code của bạn nhiều lần trong level này với các giá trị động!  
+Điều này có nghĩa là code của bạn sẽ được chạy trong nhiều tình huống ngẫu nhiên để xác minh rằng logic đủ mạnh để hoạt động đúng trong quá trình sử dụng bình thường.  
+
+Trong level này, bạn sẽ làm việc với `hàm (function)`!  
+Điều này sẽ bao gồm việc thao tác với **instruction pointer (rip)**, cũng như thực hiện các tác vụ khó hơn bình thường.  
+Bạn có thể sẽ cần dùng stack để lưu trữ giá trị hoặc gọi các hàm mà chúng tôi cung cấp cho bạn.  
+
+Ở các level trước, bạn đã triển khai một vòng lặp `while` để đếm số byte liên tiếp khác 0 trong một vùng nhớ liên tục.  
+
+Trong level này, bạn sẽ lại được cung cấp một vùng nhớ liên tục và sẽ lặp qua từng byte, thực hiện một phép toán có điều kiện cho đến khi gặp byte bằng 0.  
+Tất cả sẽ nằm trong `một hàm`!  
+
+Một **hàm** là một đoạn mã có thể gọi được mà không phá vỡ luồng điều khiển.  
+
+Các hàm sử dụng lệnh **`call`** và **`ret`**.  
+
+- **`call`** đẩy địa chỉ của lệnh kế tiếp lên stack, sau đó nhảy tới giá trị được lưu trong toán hạng.  
+- **`ret`** thì ngược lại: nó lấy giá trị trên đỉnh stack và nhảy tới địa chỉ đó.  
+
+Ví dụ với `call`:
+
+    0x1021 mov rax, 0x400000
+    0x1028 call rax
+    0x102a mov [rsi], rax
+
+- call đẩy 0x102a (địa chỉ của lệnh kế tiếp) lên stack.
+- call nhảy tới 0x400000 (giá trị trong rax).
+
+Ví dụ với `ret`:
+
+                            Stack ADDR  VALUE
+    0x103f mov rax, rdx         RSP + 0x8   0xdeadbeef
+    0x1042 ret                  RSP + 0x0   0x0000102a
+    
+- Ở đây, ret sẽ nhảy tới 0x102a
+
+Nhiệm vụ của bài:
+
+    str_lower(src_addr):
+    i = 0
+    if src_addr != 0:
+        while [src_addr] != 0x00:
+        if [src_addr] <= 0x5a:
+            [src_addr] = foo([src_addr])
+            i += 1
+        src_addr += 1
+    return i
+
+
+- foo được cung cấp tại địa chỉ 0x403000.
+- foo nhận một byte làm tham số và trả về một byte.
+
+Quy ước gọi hàm:
+
+Tất cả các hàm (foo và str_lower) phải tuân thủ Linux amd64 calling convention (hay System V AMD64 ABI):
+
+- Hàm str_lower nhận src_addr trong rdi.
+- Hàm phải trả kết quả trong rax.
+
+Lưu ý:
+
+- src_addr là một địa chỉ trong bộ nhớ (nơi string được lưu).
+
+- [src_addr] là byte tại địa chỉ đó.
+
+Vì vậy:
+
+- foo nhận một byte (giá trị) làm tham số đầu tiên.
+- foo trả về một byte
+
+---
+
+#### Lời giải
+
+Tương tự như những bài trên, bài này mình sẽ tạo ra những label tương ứng để sử dụng hoạt động như vòng lặp.
+
+```python
+import pwn
+
+pwn.context.update(arch="amd64")
+output = pwn.process("/challenge/run")
+
+asm = """
+    xor rax, rax
+    cmp rdi, 0
+    je .return
+
+    .loop:
+        cmp byte ptr [rdi], 0x00
+        je .endloop
+
+        cmp byte ptr [rdi], 0x5a
+        jg .case2
+
+        jmp .case1
+
+
+    .case1:
+        mov rbx, [rdi]
+        push rdi                 
+        push rax                 
+        mov rdi, 0
+        mov dil, bl              
+        mov r10, 0x403000
+        call r10                 
+        mov bl, al               
+        pop rax                  
+        pop rdi                  
+        mov [rdi], bl            
+        add rax, 1
+        add rdi, 0x1  
+        jmp .loop
+
+    .case2:
+        add rdi, 0x1
+        jmp .loop
+
+
+    .endloop:
+        jmp .return
+
+    .return:
+        ret
+"""
+
+output.write(pwn.asm(asm))
+print(output.readallS())
+```
+
+---
+
+#### Flag
+```pwn.college{YdmHF_YqEjOkq2hyS51T56fgyhA.dVTMywCMxADNwEzW}```
+
+---
+
+### Level 30 - most-common-byte
+
+---
+
+#### Tóm tắt đề bài
+
+Chúng tôi sẽ kiểm tra code của bạn nhiều lần trong level này với **giá trị động**!  
+
+Điều này có nghĩa là chúng tôi sẽ chạy code của bạn theo nhiều cách ngẫu nhiên khác nhau để xác minh rằng logic đủ mạnh mẽ để hoạt động ổn định trong quá trình sử dụng bình thường.  
+
+Trong level này, bạn sẽ làm việc với **hàm (functions)**!  
+Điều này sẽ liên quan đến việc thao tác với **instruction pointer (`rip`)**, cũng như thực hiện các tác vụ khó hơn bình thường. Bạn có thể sẽ được yêu cầu sử dụng stack để lưu trữ giá trị hoặc gọi các hàm mà chúng tôi cung cấp cho bạn.  
+
+Ở level trước, bạn đã học cách tạo hàm đầu tiên và cách gọi các hàm khác.  
+Bây giờ, chúng ta sẽ làm việc với các hàm có **function stack frame**.  
+
+Một **function stack frame** là một tập hợp các con trỏ và giá trị được push vào stack để lưu lại cho việc sử dụng sau này và cấp phát không gian trên stack cho các biến của hàm.  
+
+Thanh ghi `rbp`
+- `rbp` còn gọi là **Stack Base Pointer**.  
+- Dùng để xác định nơi mà stack frame của chúng ta bắt đầu.  
+
+Ví dụ, nếu ta muốn tạo một danh sách có 5 phần tử (mỗi phần tử là `dword`) chỉ dùng trong hàm:  
+
+    ; thiết lập base của stack bằng top hiện tại
+    mov rbp, rsp
+    ; dịch stack xuống 0x14 byte (5 * 4)
+    ; hành động như cấp phát bộ nhớ
+    sub rsp, 0x14
+    ; gán list[2] = 1337
+    mov eax, 1337
+    mov [rbp-0xc], eax
+    ; thực hiện thêm các thao tác khác trên list ...
+    ; khôi phục lại không gian đã cấp phát
+    mov rsp, rbp
+
+- rbp luôn được dùng để khôi phục stack về trạng thái ban đầu.
+- Nếu không khôi phục stack → cuối cùng sẽ bị đầy.
+- Chúng ta trừ từ rsp vì stack phát triển hướng xuống.
+- Khi gán list[2], ta trừ đi 12 byte (3 dwords) vì stack tăng ngược.
+
+Nhiệm vụ của bài:
+
+    most_common_byte(src_addr, size):
+    i = 0
+    while i <= size-1:
+        curr_byte = [src_addr + i]
+        [stack_base - curr_byte * 2] += 1
+        i += 1
+
+    b = 0
+    max_freq = 0
+    max_freq_byte = 0
+    while b <= 0xff:
+        if [stack_base - b * 2] > max_freq:
+        max_freq = [stack_base - b * 2]
+        max_freq_byte = b
+        b += 1
+
+    return max_freq_byte
+
+Giả định (Assumptions)
+
+- Sẽ không bao giờ có nhiều hơn 0xffff của bất kỳ byte nào
+
+- Kích thước (size) sẽ không bao giờ dài hơn 0xffff
+
+- Danh sách luôn có ít nhất một phần tử
+
+Ràng buộc (Constraints)
+
+- Bạn phải đặt "counting list" trên stack
+
+- Bạn phải khôi phục stack như một hàm bình thường
+
+- Bạn không được phép thay đổi dữ liệu tại src_addr
+
+---
+
+### Lời giải
+
+Tương tự như những bài trên, bài này mình sẽ tạo ra những label tương ứng để sử dụng hoạt động như vòng lặp.
+
+```python
+import pwn
+
+pwn.context.update(arch="amd64")
+output = pwn.process("/challenge/run")
+
+asm = """
+    
+
+    .return:
+        ret
+"""
+
+output.write(pwn.asm(asm))
+print(output.readallS())
+```
+
+---
+
+#### Flag
+```pwn.college{YdmHF_YqEjOkq2hyS51T56fgyhA.dVTMywCMxADNwEzW}```
+
+---
